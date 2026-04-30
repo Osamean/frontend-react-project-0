@@ -1,16 +1,16 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import HomePage from '../src/components/HomePage';
+import Home from '../src/pages/index';
 
-describe('HomePage', () => {
-  it('renders without crashing', () => {
-    render(<HomePage />);
+describe('Home', () => {
+  it('renders homepage with correct title', () => {
+    render(<Home />);
     expect(screen.getByText('Welcome to Next.js!')).toBeInTheDocument();
   });
 
   it('matches snapshot', () => {
-    const { container } = render(<HomePage />);
+    const { container } = render(<Home />);
     expect(container).toMatchSnapshot();
   });
 });
