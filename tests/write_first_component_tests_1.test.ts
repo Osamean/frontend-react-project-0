@@ -1,16 +1,27 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import Home from '../src/pages/index';
+import HomePage from '../components/HomePage';
+import { BrowserRouter } from 'react-router-dom';
 
-describe('Home', () => {
-  it('renders homepage with correct heading', () => {
-    render(<Home />);
-    expect(screen.getByText(/welcome to next\.js!/i)).toBeInTheDocument();
+describe('HomePage', () => {
+  it('renders the homepage with expected content', () => {
+    render(
+      <BrowserRouter>
+        <HomePage />
+      </BrowserRouter>
+    );
+
+    expect(screen.getByText(/welcome to the frontend project/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/welcome to the frontend project/i);
+    expect(screen.getByText(/built with nextjs and typescript/i)).toBeInTheDocument();
   });
 
   it('matches snapshot', () => {
-    const { asFragment } = render(<Home />);
-    expect(asFragment()).toMatchSnapshot();
+    const { container } = render(
+      <BrowserRouter>
+        <HomePage />
+      </BrowserRouter>
+    );
+
+    expect(container).toMatchSnapshot();
   });
 });
