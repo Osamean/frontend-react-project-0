@@ -1,15 +1,8 @@
-import fs from 'fs';
-import path from 'path';
+// src/configure_continuous_integration_0.ts
+import { writeFileSync } from 'fs';
+import { join } from 'path';
 
-export function configureContinuousIntegration(): void {
-  const workflowDir = path.join('.github', 'workflows');
-  const workflowFile = path.join(workflowDir, 'ci.yml');
-  
-  if (!fs.existsSync(workflowDir)) {
-    fs.mkdirSync(workflowDir, { recursive: true });
-  }
-  
-  const workflowContent = `name: Continuous Integration
+const workflowContent = `name: CI
 on:
   push:
     branches: [ main ]
@@ -33,6 +26,11 @@ jobs:
     - name: Run linting
       run: npm run lint
 `;
-  
-  fs.writeFileSync(workflowFile, workflowContent);
+
+export function configureContinuousIntegration(): void {
+  const workflowPath = join('.github', 'workflows', 'ci.yml');
+  writeFileSync(workflowPath, workflowContent);
+  console.log('Continuous integration workflow configured successfully');
 }
+
+configureContinuousIntegration();
