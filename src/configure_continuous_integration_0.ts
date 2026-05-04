@@ -1,5 +1,15 @@
-export const configureContinuousIntegration = () => {
-  const workflowContent = `name: CI
+import fs from 'fs';
+import path from 'path';
+
+export function configureContinuousIntegration(): void {
+  const workflowDir = path.join('.github', 'workflows');
+  const workflowFile = path.join(workflowDir, 'ci.yml');
+  
+  if (!fs.existsSync(workflowDir)) {
+    fs.mkdirSync(workflowDir, { recursive: true });
+  }
+  
+  const workflowContent = `name: Continuous Integration
 on:
   push:
     branches: [ main ]
@@ -23,6 +33,6 @@ jobs:
     - name: Run linting
       run: npm run lint
 `;
-
-  return workflowContent;
-};
+  
+  fs.writeFileSync(workflowFile, workflowContent);
+}
